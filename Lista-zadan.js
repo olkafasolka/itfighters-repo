@@ -24,7 +24,12 @@ window.onload = function() {
     var newRequest = {
       title: titleInput.value,
       description: descriptionInput.value,
-      status: selectAddID.value
+      status: selectAddID.value,
+      id:
+        "_" +
+        Math.random()
+          .toString(36)
+          .substr(2, 9)
     };
     //tu będzie "wkładanie" nowego requesta do tabeli
     arr.push(newRequest);
@@ -57,9 +62,11 @@ window.onload = function() {
       nextRow.appendChild(createTdToRemoveButton);
       //dodawanie nazwy buttonów
       createEditButton.innerText = "Edytuj";
-      createEditButton.setAttribute = ("data-index-clicked-edit-button", i);
+      createEditButton.setAttribute = ("data-index-clicked-edit-button",
+      arr[i].id);
       createRemoveButton.innerText = "Usuń";
-      createRemoveButton.setAttribute = ("data-index-clicked-remove-button", i);
+      createRemoveButton.setAttribute = ("data-index-clicked-remove-button",
+      arr[i].id);
       //dodawanie klas do buttonów (bootstrap)
       createEditButton.className = "btn btn-outline-info";
       createRemoveButton.className = "btn btn-outline-danger";
@@ -107,7 +114,7 @@ window.onload = function() {
     var editedTask = {
       title: titleInput.value,
       description: descriptionInput.value,
-      select: selectSearchID.value
+      id: selectSearchID.value
     };
     //przypisujemy obiekt do miejsca w tablicy, które zostało klikniętę (miejsce pobrano w funkcji clickedEdit)
     arr[indexClickedEditButton] = editedTask;
