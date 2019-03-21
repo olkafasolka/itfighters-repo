@@ -24,7 +24,6 @@ window.onload = function() {
     var newRequest = {
       title: titleInput.value,
       description: descriptionInput.value,
-      status: selectAddID.value,
       id:
         "_" +
         Math.random()
@@ -62,11 +61,16 @@ window.onload = function() {
       nextRow.appendChild(createTdToRemoveButton);
       //dodawanie nazwy buttonów
       createEditButton.innerText = "Edytuj";
-      createEditButton.setAttribute = ("data-index-clicked-edit-button",
-      arr[i].id);
+      createEditButton.setAttribute(
+        "data-index-clicked-edit-button",
+        arr[i].id
+      );
+      createEditButton.addEventListener("click", clickedEdit);
       createRemoveButton.innerText = "Usuń";
-      createRemoveButton.setAttribute = ("data-index-clicked-remove-button",
-      arr[i].id);
+      createRemoveButton.setAttribute(
+        "data-index-clicked-remove-button",
+        arr[i].id
+      );
       //dodawanie klas do buttonów (bootstrap)
       createEditButton.className = "btn btn-outline-info";
       createRemoveButton.className = "btn btn-outline-danger";
@@ -90,7 +94,7 @@ window.onload = function() {
   // 4) użytkownik edytuje dane, klika DODAJ - trzeba usunąć addEvent i dodac nowego addEvent a poza pętlą znów doda, addEvent z showData
 
   function clickedEdit(e) {
-    //dzięki nadaniu buttonowi atrybutu o konkretnej wartości możemy teraz go przywołać za pomoca funkcji event.target,
+    //dzięki nadaniu buttonowi własnego atrybuty z losowym ID możemy teraz go przywołać za pomoca funkcji event.target,
     //to informuje nas, który rekordd kliknął użytkownik
     indexClickedEditButton = e.target.getAttribute(
       "data-index-clicked-edit-button"
@@ -98,6 +102,8 @@ window.onload = function() {
     //do nowej zmiennej przypisujemy za pomocą funkcji tablicę z pobranego indeksu
     var editedValueInputs = getRequestDetails(indexClickedEditButton);
     fillInputEdited(editedValueInputs);
+    confirmEditButton.removeEventListener("click", addButton);
+    confirmEditButton.addEventListener("click", clickedEditConfirm);
   }
   // pobiera tablice z indexu wskazanego w funkcji clickedEdit
   function getRequestDetails(index) {
@@ -106,7 +112,6 @@ window.onload = function() {
   function fillInputEdited(task) {
     titleInput.value = task.title;
     descriptionInput.value = task.description;
-    selectSearchID.value = task.status;
   }
 
   function clickedEditConfirm() {
@@ -114,7 +119,7 @@ window.onload = function() {
     var editedTask = {
       title: titleInput.value,
       description: descriptionInput.value,
-      id: selectSearchID.value
+      id: editedValueInputs
     };
     //przypisujemy obiekt do miejsca w tablicy, które zostało klikniętę (miejsce pobrano w funkcji clickedEdit)
     arr[indexClickedEditButton] = editedTask;
