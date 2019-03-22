@@ -12,6 +12,7 @@ window.onload = function() {
   // var opDone = document.getElementById("opDone");
   var tbodyID = document.getElementById("tbodyID");
   var arr = [];
+  var xyz = [];
 
   // showData(); <<< --- tu będzie wywołanie stanu początkowego, jeśli wykorzystam localStorage
 
@@ -24,6 +25,7 @@ window.onload = function() {
     var newRequest = {
       title: titleInput.value,
       description: descriptionInput.value,
+      status: selectAddID.value,
       id:
         "_" +
         Math.random()
@@ -99,19 +101,24 @@ window.onload = function() {
     indexClickedEditButton = e.target.getAttribute(
       "data-index-clicked-edit-button"
     );
+
+    var editedValueInputs = arr.findIndex(getRequestDetails);
     //do nowej zmiennej przypisujemy za pomocą funkcji tablicę z pobranego indeksu
-    var editedValueInputs = getRequestDetails(indexClickedEditButton);
+
     fillInputEdited(editedValueInputs);
-    confirmEditButton.removeEventListener("click", addButton);
+    confirmEditButton.removeEventListener("click", clickedAddButton);
     confirmEditButton.addEventListener("click", clickedEditConfirm);
   }
   // pobiera tablice z indexu wskazanego w funkcji clickedEdit
-  function getRequestDetails(index) {
-    return arr[index];
+  function getRequestDetails(next) {
+    var newSearchRecord = [];
+    return next.id === indexClickedEditButton;
   }
+
   function fillInputEdited(task) {
     titleInput.value = task.title;
     descriptionInput.value = task.description;
+    selectSearchID.value = task.status;
   }
 
   function clickedEditConfirm() {
